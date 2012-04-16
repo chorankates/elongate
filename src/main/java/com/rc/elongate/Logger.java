@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class Logger {
 
+	// TODO this is not the right way to segment log levels, i want them to be comparable
 	private enum LOG_LEVELS {
 		DEBUG,
 		INFO,
@@ -79,7 +80,7 @@ public class Logger {
 
 		if(level.equals(LOG_LEVELS.FATAL) || level.equals(LOG_LEVELS.WARN))
 			System.err.print(entry);
-		else if (stdout) 		// outputting to STDOUT -- verbosity 
+		else if (stdout) 		// outputting to STDOUT -- verbosity, TODO gate on severity 
 			System.out.print(entry);
 		
 	}
