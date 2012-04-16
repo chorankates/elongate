@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Map;
-import java.util.List;
+import static com.rc.elongate.Server.l;
 
 public class Resolver {
 
@@ -27,19 +26,19 @@ public class Resolver {
 		try {
 			lwj = new URL(shortURL).openConnection();
 		} catch (MalformedURLException e) {
-			// TODO add some logging here
-			e.printStackTrace();
+			// shouldn't ever really get here since we're regex validating them first
+			l.warn(e.getMessage());
+			l.warn(e.getStackTrace().toString());
+			
 		} catch (IOException e) {
-			// TODO add some logging here
-			e.printStackTrace();
+			l.warn(e.getMessage());
+			l.warn(e.getStackTrace().toString());
 		}
 		
-		Map<String, List<String>> headers = lwj.getHeaderFields();
+		URL requestURL = lwj.getURL();
 		
-		for (int i = 0; i < headers.size(); i++)
-			System.out.println("h[" + i + "]:" + headers.get(i)); 
-
-		longURL = shortURL;
+		// logging handled on the other side
+		longURL = requestURL.toString();
 		
 		return longURL;
 	}
