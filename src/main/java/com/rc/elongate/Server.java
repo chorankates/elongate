@@ -10,12 +10,15 @@ import java.net.Socket;
 
 public class Server {
 
+	public static Logger l;
+	public static Parser p;
+	
 	private final static int PORT = 4242;
 	
 	public static void main (String[] args) {
 		// TODO need to use the same logger across com.rc.httplisten 
-		Logger l = new Logger(true);
-		Parser p = new Parser();
+		l = new Logger(true);
+		p = new Parser();
 		
 		try {
 			l.info("starting server..");
