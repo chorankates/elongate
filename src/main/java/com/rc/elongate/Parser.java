@@ -1,5 +1,7 @@
 package com.rc.elongate;
 
+import static com.rc.elongate.Server.l;
+
 public class Parser {
 	
 	public String parse (String line) {
