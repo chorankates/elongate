@@ -1,13 +1,14 @@
 package com.rc.elongate;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Listener {
+public class Server {
 
 	private final static int PORT = 4242;
 	
@@ -22,11 +23,16 @@ public class Listener {
 			
 			try {
 				server.getInetAddress();
-				l.info("server started on [" + InetAddress.getLocalHost() + ":" + PORT + "]");
+				String serverLogAddr = InetAddress.getLocalHost().toString();
+				
+				l.info("server started on [" + serverLogAddr + ":" + PORT + "]");
 				
 				while (true) {
 					Socket client = server.accept();
-					l.info("[" + client.getInetAddress().getHostAddress() + "] connection initiated");
+					
+					String clientLogAddr = client.getInetAddress().getHostAddress();
+					
+					l.info("[" + clientLogAddr + "] connection initiated");
 					
 					try {
 						BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -34,17 +40,25 @@ public class Listener {
 						try {
 							// do work
 							String line = in.readLine();
-							l.info("[" + client.getInetAddress().getHostAddress() + "] sent: " + line);
+							l.info("[" + clientLogAddr + "] sent: [" + line + "]");
 							
-							//String response = p.parse(line);
+							String response = p.parse(line);
+							l.debug("[" + line + "] resolved to [" + response + "]");
+							
+							DataOutputStream out = new DataOutputStream(client.getOutputStream());
+							l.debug("opening output stream");
+							
+							out.writeBytes(response + "\n");
+							l.info("[" + serverLogAddr + "] sent [" + response + "] to [" + clientLogAddr + "]");
+							
 							
 						} finally {
-							l.debug("[" + client.getInetAddress().getHostAddress() + "] input stream closing");
+							l.debug("[" + clientLogAddr + "] input stream closing");
 							in.close();
 						}
 						
 					} finally {
-						l.info("[" + client.getInetAddress().getHostAddress() + "] connection closing");
+						l.info("[" + clientLogAddr + "] connection closing");
 						client.close();
 					}
 					
