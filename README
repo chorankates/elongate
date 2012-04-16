@@ -1,0 +1,3 @@
+elongate is a starter Java project that listens on an arbitrary port for clients to send http URLs. if the URL sent is shortened (e.g. bit.ly/LmvF), it will return the true URL (e.g. google.com)
+
+a mix of tdd and googling my way through this
