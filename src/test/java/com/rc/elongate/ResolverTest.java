@@ -10,7 +10,7 @@ public class ResolverTest {
 	Resolver s;
 	
 	public static final String shortGoogle = "http://bit.ly/LmvF";
-	public static final String longGoogle  = "http://google.com"; // or should this be www. ?
+	public static final String longGoogle  = "http://www.google.com/"; // or should this be www. ?
 	
 	@Before
 	public void setup () {
@@ -21,13 +21,16 @@ public class ResolverTest {
 	@Test 
 	public void testCreate () {
 		Assert.assertEquals(s.getShortURL(), shortGoogle);
-		
 	}
 	
 	@Test
 	public void testResolverCanResolve () {
-		
 		Assert.assertEquals(longGoogle, s.resolve());
+	}
+	
+	@Test
+	public void testResolverCanNoop () {
+		Assert.assertEquals(longGoogle, longGoogle);
 	}
 	
 }

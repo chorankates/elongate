@@ -10,7 +10,14 @@ public class Parser {
 		
 			Resolver r = new Resolver(line);
 			
-			return r.resolve();
+			try {
+				return r.resolve();
+			} catch (Exception e) {
+				l.warn(e.getMessage());
+				l.warn(e.getStackTrace().toString());
+			}
+			
+			return "error parsing"; // failover
 			
 		} else {
 			

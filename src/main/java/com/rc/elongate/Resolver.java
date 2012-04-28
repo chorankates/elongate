@@ -1,9 +1,12 @@
 package com.rc.elongate;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+
+
 import static com.rc.elongate.Server.l;
 
 public class Resolver {
@@ -28,15 +31,24 @@ public class Resolver {
 		} catch (MalformedURLException e) {
 			// shouldn't ever really get here since we're regex validating them first
 			l.warn(e.getMessage());
-			l.warn(e.getStackTrace().toString());
-			
+			l.warn(e.getStackTrace().toString());	
 		} catch (IOException e) {
 			l.warn(e.getMessage());
 			l.warn(e.getStackTrace().toString());
 		}
 		
-		URL requestURL = lwj.getURL();
+		HttpURLConnection http = (HttpURLConnection) lwj;
 		
+		try {
+			http.getResponseMessage(); // this is the key
+		} catch (IOException e) {
+			l.warn(e.getMessage());
+			l.warn(e.getStackTrace().toString());
+		} 
+		
+				
+		URL requestURL = lwj.getURL();
+
 		// logging handled on the other side
 		longURL = requestURL.toString();
 		
